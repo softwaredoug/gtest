@@ -59,6 +59,12 @@ include_directories(
 # Where Google Test's libraries can be found.
 link_directories(${gtest_BINARY_DIR}/src)
 
+# VC11 contains std::tuple with variadic templates emulation macro.
+# _VARIADIC_MAX defaulted to 5 but gtest requires 10.
+if (MSVC_VERSION EQUAL 1700)
+	 set(cxx_base_flags "${cxx_base_flags} -D_VARIADIC_MAX=10")
+endif ()
+
 ########################################################################
 #
 # Defines the gtest & gtest_main libraries.  User tests should link
